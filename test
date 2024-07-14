@@ -1,0 +1,61 @@
+<table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Img_thumbnail</th>
+                            <th>Name</th>
+                            <th>Sku</th>
+                            <th>Catelogues</th>
+                            <th>Price_regular</th>
+                            <th>Price_sale</th>
+                            <th>Views</th>
+                            <th>Is_active</th>
+                            <th>Is_hot_deal</th>
+                            <th>Is_good_deal</th>
+                            <th>Is_new</th>
+                            <th>Is_show_home</th>
+                            <th>Tags</th>
+                            <th>Created_at</th>
+                            <th>Updated_at</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($data as $item)
+                        <tr>
+                            <td>{{ $item->id }}</td>
+                            <td>
+                                @php
+                                $url = $item->img_thumbnail;
+                                if(! \Illuminate\Support\Str::contains($url, "http")){
+                                // Nếu nó ko có định dạng này
+                                // Thì nó sẽ được được đưa vào với file định dạng
+                                $url = \Illuminate\Support\Facades\Storage::url($url);
+                                }
+                                @endphp
+                                <img src="{{ $url }}" width="100px">
+                            </td>
+
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->sku }}</td>
+                            <td>{{ $item->catelogue->name }}</td>
+                            <td>{{ $item->price_regular }}</td>
+                            <td>{{ $item->price_sale }}</td>
+                            <td>{{ $item->views }}</td>
+                            <td>{!! $item->is_active ? '<span class="badge bg-primary">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                            <td>{!! $item->is_hot_deal ? '<span class="badge bg-primary">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                            <td>{!! $item->is_good_deal ? '<span class="badge bg-primary">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                            <td>{!! $item->is_new ? '<span class="badge bg-primary">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                            <td>{!! $item->is_show_home ? '<span class="badge bg-primary">Yes</span>' : '<span class="badge bg-danger">No</span>' !!}</td>
+                            <td>
+                                @foreach($item->tags as $tag)
+                                <span class="badge bg-info">{{ $tag->name }}</span>
+                                @endforeach
+                            </td>
+                            <td>{{ $item->created_at }}</td>
+                            <td>{{ $item->updated_at }}</td>
+
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
